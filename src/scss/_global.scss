@@ -1,0 +1,46 @@
+// functional rem
+
+html {
+  font-size: 16px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+}
+
+// default style
+
+body {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  color: #000;
+}
+
+.main {
+  flex: 1 0 auto;
+}
+
+.footer,
+.header {
+  flex-shrink: 0;
+}
+
+.container {
+  max-width: $maxWidth;
+  padding: 0 15px;
+  margin:  0 auto;
+}
+
+// disable animations for 'prefers-reduced-motion: reduce'
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
