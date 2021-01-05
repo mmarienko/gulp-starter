@@ -1,4 +1,10 @@
-/*
+// ie 11 polyfill
+
+if (window.NodeList && !NodeList.prototype.forEach) {
+   NodeList.prototype.forEach = Array.prototype.forEach;
+}
+
+/*!
 
 AOS.init({
   disable: function n() {
@@ -9,7 +15,7 @@ AOS.init({
 
 */
 
-/*
+
 
 // Burger
 let burger = document.querySelector("[data-menu=burger]");
@@ -22,15 +28,13 @@ burger.addEventListener('click', function () {
       document.body.style.overflow = (document.body.style.overflow == 'hidden') ? 'visible' : 'hidden'
 });
 
-Array.prototype.forEach.call(document.querySelectorAll("data-menu>a"), function (item) {
+document.querySelectorAll("data-menu>a").forEach( function (item) {
       item.addEventListener('click', function () {
             burger.classList.remove("active");
             menu.classList.remove("active");
             document.body.style.overflow = 'visible';
       });
 });
-
-*/
 
 /*
 

@@ -9,11 +9,14 @@
   "author": "author",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "browser-sync": "^2.26.7",
     "cheerio": "^1.0.0-rc.3",
     "del": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
+    "gulp-babel": "^8.0.0",
     "gulp-cheerio": "^1.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
@@ -29,6 +32,7 @@
     "gulp-uglify": "^2.0.0"
   },
   "dependencies": {
-    "gulp-gh-pages": "^0.5.4"
+    "gulp-gh-pages": "^0.5.4",
+    "gulp-sourcemaps": "^3.0.0"
   }
 }

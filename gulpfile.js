@@ -42,6 +42,7 @@ let   fileinclude           = require("gulp-file-include");
 let   del                   = require("del");
 let   scss                  = require("gulp-sass");
 let   autoprefixer          = require("gulp-autoprefixer");
+let   sourcemaps            = require("gulp-sourcemaps");
 let   groupMedia            = require("gulp-group-css-media-queries");
 let   uglify                = require("gulp-uglify");
 let   imagemin              = require("gulp-imagemin");
@@ -50,6 +51,7 @@ let   svgSprite             = require("gulp-svg-sprite");
 let   ttf2woff              = require("gulp-ttf2woff");
 let   ttf2woff2             = require("gulp-ttf2woff2");
 let   fonter                = require("gulp-fonter");
+let   babel                 = require("gulp-babel");
 let   ghPages               = require("gulp-gh-pages");
 
 let   fs = require("fs");
@@ -69,15 +71,16 @@ gulp.task("html", function() { // setting html
 
 gulp.task("css", function() {  // setting css
   return gulp.src(path.src.css)
+    .pipe(sourcemaps.init())
     .pipe(
       scss({
-        outputStyle: "expanded",
+        outputStyle: "expanded", //compressed
       })
     )
     .pipe(groupMedia())
     .pipe(
       autoprefixer({
-        overrideBrowserslist: ["defaults"],
+        //overrideBrowserslist: ["defaults"],
         cascade: true,
       })
     )
@@ -90,8 +93,11 @@ gulp.task("js", function() { // setting js
     .pipe(fileinclude({
 			prefix: '@',
 			basepath: '@file'
-		}))
-    .pipe(uglify())
+    }))
+    .pipe(babel({
+      presets: ["@babel/preset-env"]
+    }))
+    //.pipe(uglify())
     .pipe(gulp.dest(path.build.js))
     .pipe(browserSync.stream());
 });
@@ -161,7 +167,7 @@ gulp.task("browser-sync", function() { // setting browser
   });
 });
 
-gulp.task('clean', async function () { // setting clean
+gulp.task('clean', function () { // setting clean
 	return del(path.clean);
 });
 
@@ -225,8 +231,6 @@ gulp.task('default', gulp.parallel('build', 'watch', 'browser-sync'));
 
 // ===========================================================================
 // ============================= Utils =======================================
-
-
 
 const checkWeight = (fontname) => {
   let weight = 400;
