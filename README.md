@@ -1,17 +1,7 @@
 # Gulp Starter
 
-main commands:
-
-	"" - 
-	"" - 
-	"" - 
-	"gulp otf" -  
-	"gulp svg" - create sprite.svg from all svg files.
-
-	"gulp deploy" -
-
 | COMMAND             | Description                           |
-| ------------------: | -------------------:                  |
+| -----------------   | -------------------                   |
 | `gulp`              | run default task.                     |
 | `gulp build`        | create dist folder.                   |
 | `gulp fonts`        | make woff and woff2 from ttf.         |
