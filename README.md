@@ -1,6 +1,6 @@
-# Gulp Starter
+# Gulp 4
 
-| COMMAND             | Description                           |
+| MAIN COMMAND        | Description                           |
 | -----------------   | -------------------                   |
 | `gulp`              | run default task.                     |
 | `gulp build`        | create dist folder.                   |
