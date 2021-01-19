@@ -1,12 +1,12 @@
 {
-  "name": "new_project_gulp",
-  "version": "1.0.0",
-  "description": "",
+  "name": "gulp-starter",
+  "version": "2.0.1",
+  "description": "html/scss/svg-sprite/image-min/fonts",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "author",
+  "author": "Maxim Marienko",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -18,21 +18,13 @@
     "gulp-autoprefixer": "^7.0.1",
     "gulp-babel": "^8.0.0",
     "gulp-cheerio": "^1.0.0",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-concat": "^2.6.1",
     "gulp-file-include": "^2.2.2",
-    "gulp-fonter": "^0.3.0",
     "gulp-group-css-media-queries": "^1.2.2",
     "gulp-imagemin": "^7.1.0",
-    "gulp-rename": "^2.0.0",
     "gulp-sass": "^4.1.0",
     "gulp-svg-sprite": "^1.5.0",
-    "gulp-ttf2woff": "^1.1.1",
-    "gulp-ttf2woff2": "^3.0.0",
-    "gulp-uglify": "^2.0.0"
+    "gulp-uglify": "^2.0.0",
+    "gulp-gh-pages": "^0.5.4"
   },
-  "dependencies": {
-    "gulp-gh-pages": "^0.5.4",
-    "gulp-sourcemaps": "^3.0.0"
-  }
+  "repository": "https://github.com/mmarienko/gulp-starter"
 }

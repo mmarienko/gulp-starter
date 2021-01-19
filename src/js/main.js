@@ -1,5 +1,4 @@
 // ie 11 polyfill
-
 if (window.NodeList && !NodeList.prototype.forEach) {
    NodeList.prototype.forEach = Array.prototype.forEach;
 }
@@ -16,7 +15,7 @@ AOS.init({
 */
 
 
-
+/*
 // Burger
 let burger = document.querySelector("[data-menu=burger]");
 let menu = document.querySelector("[data-menu=menu]");
@@ -35,6 +34,8 @@ document.querySelectorAll("data-menu>a").forEach( function (item) {
             document.body.style.overflow = 'visible';
       });
 });
+
+*/
 
 /*
 
