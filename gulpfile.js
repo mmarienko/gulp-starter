@@ -1,12 +1,12 @@
 // ========================= Setings folders =================================
 
-let project_folder = "dist";  //require("path").basename(__dirname)
-let source_folder = "src";
+const project_folder = "dist";  //require("path").basename(__dirname)
+const source_folder = "src";
 
 // ===========================================================================
 // =========================== Setings Path ==================================
 
-let path = {
+const path = {
   build: {
     html: project_folder + "/",
     css: project_folder + "/css/",
@@ -19,16 +19,18 @@ let path = {
       source_folder + "/html/**/*.html",
       "!" + source_folder + "/html/**/_*.html",
     ],
-    css: source_folder + "/scss/style.scss",
+    css: source_folder + "/scss/*.scss",
     js: source_folder + "/js/main.js",
-    img: source_folder + "/img/**/*.+(png|jpg|gif|ico|svg|webp)",
-    fonts: source_folder + "/fonts/*.ttf",
+    img: source_folder + "/img/**/*.+(png|jpg|gif|ico|webp)",
+    fonts: source_folder + "/fonts/*.+(otf|ttf|woff|woff2)",
+    svg: source_folder + "/img/svg/*.svg",
   },
   watch: {
     html: source_folder + "/**/*.html",
     css: source_folder + "/scss/**/*.scss",
     js: source_folder + "/js/**/*.js",
-    img: source_folder + "/img/**/*.+(png|jpg|gif|ico|svg|webp)",
+    img: source_folder + "/img/**/*.+(png|jpg|gif|ico|webp)",
+    svg: source_folder + "/img/svg/*.svg",
   },
   clean: "./" + project_folder + "/",
 };
@@ -36,33 +38,38 @@ let path = {
 // ===========================================================================
 // =========================== Gulp plugins ==================================
 
-let   gulp                  = require("gulp");
-let   browserSync           = require("browser-sync").create();
-let   fileinclude           = require("gulp-file-include");
-let   del                   = require("del");
-let   scss                  = require("gulp-sass");
-let   autoprefixer          = require("gulp-autoprefixer");
-let   groupMedia            = require("gulp-group-css-media-queries");
-let   imagemin              = require("gulp-imagemin");
-let   cheerio               = require("gulp-cheerio");
-let   svgSprite             = require("gulp-svg-sprite");
-let   babel                 = require("gulp-babel");
-let   ghPages               = require("gulp-gh-pages");
+const gulp = require("gulp");
+const browserSync = require("browser-sync").create();
+const fileinclude = require("gulp-file-include");
+const scss = require("gulp-sass");
+const autoprefixer = require("gulp-autoprefixer");
+const groupMedia = require("gulp-group-css-media-queries");
+const cleanCss = require("gulp-clean-css");
+const rename = require("gulp-rename");
+const uglify = require("gulp-uglify");
+const imagemin = require("gulp-imagemin");
+const cheerio = require("gulp-cheerio");
+const svgSprite = require("gulp-svg-sprite");
+const babel = require("gulp-babel");
+const ghPages = require("gulp-gh-pages");
+const realFavicon = require ('gulp-real-favicon');
+const del = require("del");
+const fs = require('fs');
 
 // ===========================================================================
 // ============================= All Setings =================================
 
-gulp.task("html", function() { // setting html
+gulp.task("html", function () { // setting html
   return gulp.src(path.src.html)
     .pipe(fileinclude({
-			prefix: '@',
-			basepath: '@file'
-		}))
+      prefix: '@',
+      basepath: '@file'
+    }))
     .pipe(gulp.dest(path.build.html))
     .pipe(browserSync.stream());
 });
 
-gulp.task("css", function() {  // setting css
+gulp.task("css", function () {  // setting css
   return gulp.src(path.src.css)
     .pipe(
       scss({
@@ -76,24 +83,36 @@ gulp.task("css", function() {  // setting css
         cascade: true,
       })
     )
+    .pipe(cleanCss())
+    .pipe(
+      rename({
+        extname: ".min.css",
+      })
+    )
     .pipe(gulp.dest(path.build.css))
     .pipe(browserSync.stream());
 });
 
-gulp.task("js", function() { // setting js
+gulp.task("js", function () { // setting js
   return gulp.src(path.src.js)
     .pipe(fileinclude({
-			prefix: '@',
-			basepath: '@file'
+      prefix: '@',
+      basepath: '@file'
     }))
     .pipe(babel({
       presets: ["@babel/preset-env"]
     }))
+    .pipe(uglify())
+    .pipe(
+      rename({
+        extname: ".min.js",
+      })
+    )
     .pipe(gulp.dest(path.build.js))
     .pipe(browserSync.stream());
 });
 
-gulp.task("img", function() { // setting image
+gulp.task("img", function () { // setting image
   return gulp.src(path.src.img)
     .pipe(
       imagemin({
@@ -108,12 +127,12 @@ gulp.task("img", function() { // setting image
 });
 
 gulp.task('fonts', async function () { // setting fonts
-	return gulp.src(path.src.fonts)
-		.pipe(gulp.dest(path.build.fonts));
+  return gulp.src(path.src.fonts)
+    .pipe(gulp.dest(path.build.fonts));
 })
 
-gulp.task("svg", function() {  // "gulp svg"
-  return gulp.src([source_folder + "/img/svg/**/*.svg"])
+gulp.task("svg", function () {  // "gulp svg"
+  return gulp.src(path.src.svg)
     .pipe(
       cheerio({
         run: function ($) {
@@ -121,8 +140,7 @@ gulp.task("svg", function() {  // "gulp svg"
           $("[stroke]").removeAttr("stroke");
           $("[style]").removeAttr("style");
           $("[viewBox]").removeAttr("viewBox");
-        },
-        parserOptions: { xmlMode: true },
+        }
       })
     )
     .pipe(
@@ -138,7 +156,7 @@ gulp.task("svg", function() {  // "gulp svg"
     .pipe(gulp.dest(path.build.img));
 });
 
-gulp.task("browser-sync", function() { // setting browser
+gulp.task("browser-sync", function () { // setting browser
   browserSync.init({
     server: {
       baseDir: "./" + project_folder + "/",
@@ -149,12 +167,82 @@ gulp.task("browser-sync", function() { // setting browser
 });
 
 gulp.task('clean', function () { // setting clean
-	return del(path.clean);
+  return del(path.clean);
 });
 
-gulp.task('deploy', function() {
+gulp.task('deploy', function () {
   return gulp.src(project_folder + '/')
     .pipe(ghPages());
+});
+
+var FAVICON_DATA_FILE = 'favicon.json';
+
+gulp.task('create-favicon', function(done) { // setting create favicons
+	realFavicon.generateFavicon({
+		masterPicture: source_folder + '/img/favicon.png',
+		dest: project_folder + '/img/icons/',
+		iconsPath: 'img/icons/',
+		design: {
+			ios: {
+				pictureAspect: 'backgroundAndMargin',
+				backgroundColor: '#ffffff',
+				margin: '14%',
+				assets: {
+					ios6AndPriorIcons: false,
+					ios7AndLaterIcons: false,
+					precomposedIcons: false,
+					declareOnlyDefaultIcon: true
+				}
+			},
+			desktopBrowser: {
+				design: 'raw'
+			},
+			windows: {
+				pictureAspect: 'whiteSilhouette',
+				backgroundColor: '#2f675c',
+				onConflict: 'override',
+				assets: {
+					windows80Ie10Tile: false,
+					windows10Ie11EdgeTiles: {
+						small: false,
+						medium: true,
+						big: false,
+						rectangle: false
+					}
+				}
+			},
+			androidChrome: {
+				pictureAspect: 'noChange',
+				themeColor: '#ffffff',
+				manifest: {
+					display: 'standalone',
+					orientation: 'notSet',
+					onConflict: 'override',
+					declared: true
+				},
+				assets: {
+					legacyIcon: false,
+					lowResolutionIcons: false
+				}
+			}
+		},
+		settings: {
+			scalingAlgorithm: 'Mitchell',
+			errorOnImageTooSmall: false,
+			readmeFile: false,
+			htmlCodeFile: false,
+			usePathAsIs: false
+		},
+		markupFile: FAVICON_DATA_FILE
+	}, function() {
+		done();
+	});
+});
+
+gulp.task('inject-favicon', function() { // setting favicon inject
+	return gulp.src(project_folder + '/**/*.html')
+		.pipe(realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).favicon.html_code))
+		.pipe(gulp.dest(project_folder ));
 });
 
 gulp.task('watch', function () { // setting watch
@@ -162,12 +250,14 @@ gulp.task('watch', function () { // setting watch
   gulp.watch([path.watch.css], gulp.parallel('css'));
   gulp.watch([path.watch.js], gulp.parallel('js'));
   gulp.watch([path.watch.img], gulp.parallel('img'));
+  gulp.watch([path.watch.svg], gulp.parallel('svg'));
 });
 
 // ===========================================================================
 // ========================== "gulp build" ===================================
 
 gulp.task('build', gulp.series('clean', gulp.parallel('js', 'css', 'html', 'img', 'fonts', 'svg')));
+gulp.task('favicon', gulp.series('create-favicon','inject-favicon'));
 
 // ===========================================================================
 // =============== default function, after command "gulp" ====================
@@ -175,84 +265,3 @@ gulp.task('build', gulp.series('clean', gulp.parallel('js', 'css', 'html', 'img'
 gulp.task('default', gulp.parallel('build', 'watch', 'browser-sync'));
 
 // ===========================================================================
-// ============================== UTILS ======================================
-
-//let srcFonts = source_folder + "/scss/_fonts.scss";
-
-//const fontsStyle = (done) => {
-//  let file_content = fs.readFileSync(srcFonts);
-
-//  fs.writeFile(srcFonts, "", cb);
-//  fs.readdir(source_folder + "/fonts/", function (err, items) {
-//    if (items) {
-//      let c_fontname;
-//      for (var i = 0; i < items.length; i++) {
-//        let fontname = items[i].split(".");
-//        fontname = fontname[0];
-//        let font = fontname.split("-")[0];
-//        let weight = checkWeight(fontname);
-
-//        if (c_fontname != fontname) {
-//          fs.appendFile(
-//            srcFonts,
-//            '@include font-face("' +
-//              font +
-//              '", "' +
-//              fontname +
-//              '", ' +
-//              weight +
-//              ");\r\n",
-//            cb
-//          );
-//        }
-//        c_fontname = fontname;
-//      }
-//    }
-//  });
-
-//  done();
-//};
-
-//const checkWeight = (fontname) => {
-//  let weight = 400;
-//  switch (true) {
-//    case /Thin/.test(fontname):
-//      weight = 100;
-//      break;
-//    case /ExtraLight/.test(fontname):
-//      weight = 200;
-//      break;
-//    case /Light/.test(fontname):
-//      weight = 300;
-//      break;
-//    case /Regular/.test(fontname):
-//      weight = 400;
-//      break;
-//    case /Medium/.test(fontname):
-//      weight = 500;
-//      break;
-//    case /SemiBold/.test(fontname):
-//      weight = 600;
-//      break;
-//    case /Semi/.test(fontname):
-//      weight = 600;
-//      break;
-//    case /Bold/.test(fontname):
-//      weight = 700;
-//      break;
-//    case /ExtraBold/.test(fontname):
-//      weight = 800;
-//      break;
-//    case /Heavy/.test(fontname):
-//      weight = 700;
-//      break;
-//    case /Black/.test(fontname):
-//      weight = 900;
-//      break;
-//    default:
-//      weight = 400;
-//  }
-//  return weight;
-//};
-
-//function cb() {}

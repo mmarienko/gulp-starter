@@ -37,10 +37,6 @@ a:active {
   outline: none;
 }
 
-a:focus {
-  outline: thin dotted;
-}
-
 a,
 a:visited,
 a:hover {
@@ -69,8 +65,8 @@ button::-moz-focus-inner {
   border: 0;
 }
 
-ol[class],
-ul[class] {
+ol,
+ul {
   list-style: none;
 }
 
@@ -79,12 +75,29 @@ table {
   border-spacing: 0;
 }
 
-input {
+input[input] {
   appearance: none;
 }
 
-// disable animations for 'prefers-reduced-motion: reduce'
+button {
+  background: transparent;
+}
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+// disable animations for 'prefers-reduced-motion: reduce'
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;

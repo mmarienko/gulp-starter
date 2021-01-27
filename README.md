@@ -1,8 +1,7 @@
 # Gulp 4
 
-| MAIN COMMAND        | Description                           |
-| -----------------   | -------------------                   |
-| `gulp`              | run default task.                     |
-| `gulp build`        | create dist folder.                   |
-| `gulp svg`          | create sprite.svg from all svg files. |
-| `gulp deploy`       | deploy to gh-pages.                   |
+| MAIN COMMAND              | Description                           |
+| -----------------         | -------------------                   |
+| `gulp` || npm run serve   | run local server.                     |
+| `gulp deploy`             | deploy dist folder to gh-pages.       |
+| `npm run build`           | create dist folder with fivicons.     |
