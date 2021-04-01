@@ -1,9 +1,7 @@
-.modal {
+.popup {
    position: fixed;
    width: 100%;
    height: 100%;
-
-   background-color: rgba(#000, 0.7);
 
    top: 0;
    left: 0;
@@ -17,11 +15,10 @@
    transition: all 0.5s ease-in-out;
 
    &.active {
-
       opacity: 1;
       visibility: visible;
 
-      .modal__content {
+      .popup__content {
          opacity: 1;
          transform: translate(0, 0);
       }
@@ -37,9 +34,9 @@
 
    &__body {
       width: 100%;
-      min-height: 100vh;
+      min-height: 100%;
       display: flex;
-      align-items: center;
+      align-self: center;
       justify-content: center;
       flex-direction: column;
       padding: 40px 20px;
@@ -50,14 +47,14 @@
       max-width: 1000px;
       background: #fff;
       margin: 0 auto;
-
       transition: all 0.3s ease-in-out;
 
       opacity: 0;
-      transform: translate(0px, -100%);
+      transform: translate(0, 100%);
 
-      padding: 60px 45px;
+      box-shadow: 0px 0px 1px #000;
 
+      padding: 50px;
       @media (max-width: 575.98px) {
          padding: 20px;
       }

@@ -1,17 +1,10 @@
-html {
-  font-size: 16px;
-
-  @media (max-width: 768px) {
-    font-size: 14px;
-  }
-}
-
 body {
   font-family: sans-serif;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
   color: #000;
 }
 
@@ -25,7 +18,7 @@ body {
 }
 
 .container {
-  max-width: $maxWidth;
+  max-width: var(--with-container);
   padding: 0 15px;
   margin:  0 auto;
 }

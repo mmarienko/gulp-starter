@@ -1,13 +1,13 @@
 {
   "name": "gulp-starter",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "html/scss/svg-sprite/image-min/fonts/favicon",
   "main": "index.html",
   "scripts": {
     "serv": "gulp default",
     "build": "gulp build && gulp favicon"
   },
-  "author": "Maxim Marienko",
+  "author": "Maksym Marienko",
   "license": "ISC",
   "devDependencies": {
     "fs": "0.0.1-security",
@@ -29,7 +29,9 @@
     "gulp-svg-sprite": "^1.5.0",
     "gulp-uglify": "^2.0.0",
     "gulp-clean-css": "^4.3.0",
-    "gulp-rename": "^2.0.0"
+    "gulp-rename": "^2.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-pretty-html": "^2.0.10"
   },
   "repository": "https://github.com/mmarienko/gulp-starter"
 }

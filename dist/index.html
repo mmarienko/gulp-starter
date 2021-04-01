@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+   <meta charset="UTF-8" />
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <!--<link rel="icon" href="img/favicon.png" type="image/png"/>-->
+   <meta name="description" content="description">
+   <link rel="stylesheet" href="css/style.min.css" />
+   <title>Title</title>
+</head>
+
+<body>
+   <header class="header">
+      <div class="container"></div>
+   </header>
+   <main class="main">
+      <div class="container"></div>
+   </main>
+   <footer class="footer">
+      <div class="container"></div>
+   </footer>
+   <div class="modal" id="modal">
+      <div onclick="toggleModal('modal')" class="modal__area"></div>
+      <div class="modal__body">
+         <div class="modal__content">
+            <button onclick="toggleModal('modal')" class="modal__close" aria-label="Close modal window"> ✖ </button>
+
+         </div>
+      </div>
+   </div>
+
+
+   <div class="popup" id="popup">
+      <div onclick="togglePopup('popup')" class="popup__area"></div>
+      <div class="popup__body">
+         <div class="popup__content">
+            <button onclick="togglePopup('popup')" class="popup__close" aria-label="Close popup window"> ✖ </button>
+
+         </div>
+      </div>
+   </div>
+   <script async src="https://polyfill.io/v3/polyfill.min.js?features=Array.from%2CNodeList.prototype.forEach"></script>
+   <script async src="https://cdnjs.cloudflare.com/ajax/libs/svgxuse/1.2.6/svgxuse.min.js"></script>
+   <script defer src="js/main.min.js"></script>
+</body>
+
+</html>

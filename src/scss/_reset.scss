@@ -12,6 +12,7 @@
 
 html,
 body {
+  line-height: 1;
   height: 100%;
   width: 100%;
   font-size: 100%;
@@ -30,6 +31,10 @@ h6 {
 :focus,
 :active {
   outline: none;
+}
+
+a {
+  color: inherit;
 }
 
 a:hover,
@@ -52,8 +57,9 @@ aside {
 
 input,
 button,
-textarea {
-  font-family: inherit;
+textarea,
+select {
+  font: inherit;
 }
 
 input::-ms-clear {
@@ -75,34 +81,47 @@ table {
   border-spacing: 0;
 }
 
-input[input] {
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
   appearance: none;
 }
 
+input,
+select {
+  color: currentColor;
+  appearance: none;
+}
+
+textarea{
+  overflow-y: auto;
+  resize: none;
+}
+
 button {
-  background: transparent;
+  background-color: transparent;
+  cursor: pointer;
+  color: currentColor;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+input,
+textarea {
+  &::placeholder {
+     transition: opacity 0.3s ease;
+  }
 
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-select::-ms-expand {
-  display: none;
+  &:focus {
+     &::placeholder {
+        opacity: 0;
+     }
+  }
 }
 
 // disable animations for 'prefers-reduced-motion: reduce'
 @media (prefers-reduced-motion: reduce) {
   * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+     animation-duration: 0.01ms !important;
+     animation-iteration-count: 1 !important;
+     transition-duration: 0.01ms !important;
+     scroll-behavior: auto !important;
   }
 }
