@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="ru">
-  @include('modules/_link.html',{ 'title': 'Title' })
+  @include('modules/link.html',{ 'title': 'Title' })
   <body>
-    @include('modules/_header.html')
+    @include('modules/header.html')
     <main class="main">
-      <div class="container"></div>
+      <div class="container">
+        <svg style="fill: #ffb111; display: block; margin: auto;">
+           <use xlink:href="img/sprite.svg#example"></use>
+        </svg>
+      </div>
     </main>
-    @include('modules/_footer.html')
+    @include('modules/footer.html')
   </body>
 </html>

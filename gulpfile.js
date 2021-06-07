@@ -9,25 +9,24 @@ const source_folder = "src";
 const path = {
   build: {
     html: project_folder + "/",
+    php: project_folder + "/php/",
     css: project_folder + "/css/",
     js: project_folder + "/js/",
     img: project_folder + "/img/",
     fonts: project_folder + "/fonts/",
   },
   src: {
-    html: [
-      source_folder + "/html/**/*.html",
-      "!" + source_folder + "/html/**/_*.html",
-    ],
-    css: source_folder + "/scss/*.scss",
+    html: source_folder + "/html/*.html",
+    php: source_folder + "/php/**/*.php",
+    css: source_folder + "/scss/style.scss",
     js: source_folder + "/js/**/*.js",
-    img: [source_folder + "/img/**/*.+(png|jpg|gif|ico|webp|svg)",
-    "!" + source_folder + "/img/svg/*"],
+    img: source_folder + "/img/**/*.+(png|jpg|gif|ico|webp|svg)",
     fonts: source_folder + "/fonts/*.+(otf|ttf|woff|woff2)",
     svg: source_folder + "/img/svg/*.svg",
   },
   watch: {
     html: source_folder + "/**/*.html",
+    php: source_folder + "/php/**/*.php",
     css: source_folder + "/scss/**/*.scss",
     js: source_folder + "/js/**/*.js",
     img: source_folder + "/img/**/*.+(png|jpg|gif|ico|webp)",
@@ -72,6 +71,12 @@ gulp.task("html", function () { // setting html
       indent_size: 3
     }))
     .pipe(gulp.dest(path.build.html))
+    .pipe(browserSync.stream());
+});
+
+gulp.task("php", function () { // setting html
+  return gulp.src(path.src.php)
+    .pipe(gulp.dest(path.build.php))
     .pipe(browserSync.stream());
 });
 
@@ -147,15 +152,16 @@ gulp.task("svg", function () {  // "gulp svg"
           $("[stroke]").removeAttr("stroke");
           $("[style]").removeAttr("style");
           $("[viewBox]").removeAttr("viewBox");
+          $("[opacity]").removeAttr("opacity");
         }
       })
     )
     .pipe(
       svgSprite({
         mode: {
-          stack: {
+          symbol: {
             sprite: "../sprite.svg",
-            //example: true,
+            example: true,
           },
         },
       })
@@ -263,7 +269,7 @@ gulp.task('watch', function () { // setting watch
 // ===========================================================================
 // ========================== "gulp build" ===================================
 
-gulp.task('build', gulp.series('clean', gulp.parallel('js', 'css', 'html', 'img', 'fonts', 'svg')));
+gulp.task('build', gulp.series('clean', gulp.parallel('html', 'php', 'js', 'img', 'css', 'fonts', 'svg')));
 gulp.task('favicon', gulp.series('create-favicon', 'inject-favicon'));
 
 // ===========================================================================

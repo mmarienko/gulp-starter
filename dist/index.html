@@ -16,33 +16,15 @@
       <div class="container"></div>
    </header>
    <main class="main">
-      <div class="container"></div>
+      <div class="container">
+         <svg style="fill: #ffb111; display: block; margin: auto;">
+            <use xlink:href="img/sprite.svg#example"></use>
+         </svg>
+      </div>
    </main>
    <footer class="footer">
       <div class="container"></div>
    </footer>
-   <div class="modal" id="modal">
-      <div onclick="toggleModal('modal')" class="modal__area"></div>
-      <div class="modal__body">
-         <div class="modal__content">
-            <button onclick="toggleModal('modal')" class="modal__close" aria-label="Close modal window"> ✖ </button>
-
-         </div>
-      </div>
-   </div>
-
-
-   <div class="popup" id="popup">
-      <div onclick="togglePopup('popup')" class="popup__area"></div>
-      <div class="popup__body">
-         <div class="popup__content">
-            <button onclick="togglePopup('popup')" class="popup__close" aria-label="Close popup window"> ✖ </button>
-
-         </div>
-      </div>
-   </div>
-   <script async src="https://polyfill.io/v3/polyfill.min.js?features=Array.from%2CNodeList.prototype.forEach"></script>
-   <script async src="https://cdnjs.cloudflare.com/ajax/libs/svgxuse/1.2.6/svgxuse.min.js"></script>
    <script defer src="js/main.min.js"></script>
 </body>
 

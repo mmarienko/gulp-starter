@@ -103,19 +103,6 @@ button {
   color: currentColor;
 }
 
-input,
-textarea {
-  &::placeholder {
-     transition: opacity 0.3s ease;
-  }
-
-  &:focus {
-     &::placeholder {
-        opacity: 0;
-     }
-  }
-}
-
 // disable animations for 'prefers-reduced-motion: reduce'
 @media (prefers-reduced-motion: reduce) {
   * {
