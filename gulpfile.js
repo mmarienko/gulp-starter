@@ -183,11 +183,6 @@ gulp.task('clean', function () { // setting clean
   return del(path.clean);
 });
 
-gulp.task('deploy', function () {
-  return gulp.src(project_folder + '/')
-    .pipe(ghPages());
-});
-
 var FAVICON_DATA_FILE = 'favicon.json';
 
 gulp.task('create-favicon', function (done) { // setting create favicons

@@ -5,7 +5,8 @@
   "main": "index.html",
   "scripts": {
     "serve": "gulp default",
-    "build": "gulp build && gulp favicon"
+    "build": "gulp build && gulp favicon",
+    "deploy": "gulp build && gh-pages -d dist"
   },
   "author": "Maksym Marienko",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "cheerio": "^1.0.0-rc.3",
     "del": "^5.1.0",
     "fs": "0.0.1-security",
+    "gh-pages": "^3.2.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-babel": "^8.0.0",

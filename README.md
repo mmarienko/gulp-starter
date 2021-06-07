@@ -12,3 +12,8 @@ npm run serve
 ```
 npm run build
 ```
+
+### Deploy production to gh-pages
+```
+npm run deploy
+```
