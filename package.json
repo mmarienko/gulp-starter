@@ -1,6 +1,6 @@
 {
   "name": "gulp-starter",
-  "version": "3.2.0",
+  "version": "3.2.2",
   "description": "Frontend Starter Kit with Gulp",
   "main": "index.html",
   "scripts": {

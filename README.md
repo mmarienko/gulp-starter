@@ -17,8 +17,3 @@ npm run build
 ```
 npm run deploy
 ```
-
-### Create favicon (will be destroyed after change source)
-```
-npm run favicon
-```
