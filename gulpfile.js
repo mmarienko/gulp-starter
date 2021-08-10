@@ -1,28 +1,29 @@
 // ========================= Setings folders =================================
 
-const project_folder = "dist";  //require("path").basename(__dirname)
+const project_folder = "dist";  // or require("path").basename(__dirname)
 const source_folder = "src";
 
 // ===========================================================================
 // =========================== Setings Path ==================================
 
 const path = {
+  src: {
+    html: source_folder + "/html/*.html",
+    php: source_folder + "/php/**/*.php",
+    css: source_folder + "/scss/style.scss",
+    js: source_folder + "/js/**/*.js",
+    img: source_folder + "/img/**/*.+(png|jpg|gif|ico|webp)",
+    fonts: source_folder + "/fonts/*.+(otf|ttf|woff|woff2)",
+    svg: source_folder + "/img/svg/*.svg",
+  },
   build: {
     html: project_folder + "/",
     php: project_folder + "/php/",
     css: project_folder + "/css/",
     js: project_folder + "/js/",
     img: project_folder + "/img/",
+    svg: project_folder + "/img/svg/",
     fonts: project_folder + "/fonts/",
-  },
-  src: {
-    html: source_folder + "/html/*.html",
-    php: source_folder + "/php/**/*.php",
-    css: source_folder + "/scss/style.scss",
-    js: source_folder + "/js/**/*.js",
-    img: source_folder + "/img/**/*.+(png|jpg|gif|ico|webp|svg)",
-    fonts: source_folder + "/fonts/*.+(otf|ttf|woff|woff2)",
-    svg: source_folder + "/img/svg/*.svg",
   },
   watch: {
     html: source_folder + "/**/*.html",
@@ -41,8 +42,8 @@ const path = {
 const gulp = require("gulp");
 const browserSync = require("browser-sync").create();
 const fileInclude = require("gulp-file-include");
-const prettyHtml = require('gulp-pretty-html');
-const scss = require("gulp-sass");
+const prettyHtml = require("gulp-pretty-html");
+const scss = require("gulp-sass")(require("sass"));
 const autoPrefixer = require("gulp-autoprefixer");
 const groupMedia = require("gulp-group-css-media-queries");
 const cleanCss = require("gulp-clean-css");
@@ -54,9 +55,9 @@ const cheerio = require("gulp-cheerio");
 const svgSprite = require("gulp-svg-sprite");
 const babel = require("gulp-babel");
 const ghPages = require("gulp-gh-pages");
-const realFavicon = require('gulp-real-favicon');
+const realFavicon = require("gulp-real-favicon");
 const del = require("del");
-const fs = require('fs');
+const fs = require("fs");
 
 // ===========================================================================
 // ============================= All Setings =================================
@@ -74,26 +75,26 @@ gulp.task("html", function () { // setting html
     .pipe(browserSync.stream());
 });
 
-gulp.task("php", function () { // setting html
+gulp.task("php", function () { // setting php
   return gulp.src(path.src.php)
     .pipe(gulp.dest(path.build.php))
     .pipe(browserSync.stream());
 });
 
-gulp.task("css", function () {  // setting css
+gulp.task("css", function () {  // setting styles
   return gulp.src(path.src.css)
     .pipe(
       scss({
-        outputStyle: "expanded", //compressed
+        outputStyle: "expanded", // or compressed
       })
     )
     .pipe(groupMedia())
     .pipe(
       autoPrefixer({
-        //overrideBrowserslist: ["defaults"],
         cascade: true,
       })
     )
+    //.pipe(gulp.dest(path.build.css)) // if need not-clean version
     .pipe(cleanCss())
     .pipe(
       rename({
@@ -104,7 +105,7 @@ gulp.task("css", function () {  // setting css
     .pipe(browserSync.stream());
 });
 
-gulp.task("js", function () { // setting js
+gulp.task("js", function () { // setting scripts
   return gulp.src(path.src.js)
     .pipe(fileInclude({
       prefix: '@',
@@ -114,6 +115,7 @@ gulp.task("js", function () { // setting js
     .pipe(babel({
       presets: ["@babel/preset-env"]
     }))
+    //.pipe(gulp.dest(path.build.js)) // if need not-uglify version
     .pipe(uglify())
     .pipe(
       rename({
@@ -138,13 +140,9 @@ gulp.task("img", function () { // setting image
     .pipe(browserSync.stream());
 });
 
-gulp.task('fonts', async function () { // setting fonts
-  return gulp.src(path.src.fonts)
-    .pipe(gulp.dest(path.build.fonts));
-})
-
-gulp.task("svg", function () {  // "gulp svg"
+gulp.task("svg", function () {  // setting svg
   return gulp.src(path.src.svg)
+    .pipe(gulp.dest(path.build.svg))
     .pipe(
       cheerio({
         run: function ($) {
@@ -169,7 +167,12 @@ gulp.task("svg", function () {  // "gulp svg"
     .pipe(gulp.dest(path.build.img));
 });
 
-gulp.task("browser-sync", function () { // setting browser
+gulp.task('fonts', function () { // setting fonts
+  return gulp.src(path.src.fonts)
+    .pipe(gulp.dest(path.build.fonts));
+});
+
+gulp.task("browser-sync", function () { // setting server
   browserSync.init({
     server: {
       baseDir: "./" + project_folder + "/",
@@ -183,9 +186,14 @@ gulp.task('clean', function () { // setting clean
   return del(path.clean);
 });
 
+gulp.task('deploy', function () { // setting deploy
+  return gulp.src(project_folder + '/')
+    .pipe(ghPages());
+});
+
 var FAVICON_DATA_FILE = 'favicon.json';
 
-gulp.task('create-favicon', function (done) { // setting create favicons
+gulp.task('create-favicon', function (done) { // setting create favicon
   realFavicon.generateFavicon({
     masterPicture: source_folder + '/img/favicon.png',
     dest: project_folder + '/img/icons/',
@@ -255,6 +263,7 @@ gulp.task('inject-favicon', function () { // setting favicon inject
 
 gulp.task('watch', function () { // setting watch
   gulp.watch([path.watch.html], gulp.parallel('html'));
+  gulp.watch([path.watch.php], gulp.parallel('php'));
   gulp.watch([path.watch.css], gulp.parallel('css'));
   gulp.watch([path.watch.js], gulp.parallel('js'));
   gulp.watch([path.watch.img], gulp.parallel('img'));
@@ -262,7 +271,7 @@ gulp.task('watch', function () { // setting watch
 });
 
 // ===========================================================================
-// ========================== "gulp build" ===================================
+// ======================== custom gulp tasks ================================
 
 gulp.task('build', gulp.series('clean', gulp.parallel('html', 'php', 'js', 'img', 'css', 'fonts', 'svg')));
 gulp.task('favicon', gulp.series('create-favicon', 'inject-favicon'));
@@ -270,6 +279,6 @@ gulp.task('favicon', gulp.series('create-favicon', 'inject-favicon'));
 // ===========================================================================
 // =============== default function, after command "gulp" ====================
 
-gulp.task('default', gulp.parallel('build', 'watch', 'browser-sync'));
+gulp.task('default', gulp.series('build', gulp.parallel('watch', 'browser-sync')));
 
 // ===========================================================================

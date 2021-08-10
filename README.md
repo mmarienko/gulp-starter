@@ -8,12 +8,17 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compiles and minifies for production (with favicon)
 ```
 npm run build
 ```
 
-### Deploy production to gh-pages
+### Deploy production to github pages
 ```
 npm run deploy
+```
+
+### Create favicon (will be destroyed after change source)
+```
+npm run favicon
 ```
