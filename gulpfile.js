@@ -54,7 +54,6 @@ const imagemin = require("gulp-imagemin");
 const cheerio = require("gulp-cheerio");
 const svgSprite = require("gulp-svg-sprite");
 const babel = require("gulp-babel");
-const ghPages = require("gulp-gh-pages");
 const realFavicon = require("gulp-real-favicon");
 const del = require("del");
 const fs = require("fs");
@@ -184,11 +183,6 @@ gulp.task("browser-sync", function () { // setting server
 
 gulp.task('clean', function () { // setting clean
   return del(path.clean);
-});
-
-gulp.task('deploy', function () { // setting deploy
-  return gulp.src(project_folder + '/')
-    .pipe(ghPages());
 });
 
 var FAVICON_DATA_FILE = 'favicon.json';
