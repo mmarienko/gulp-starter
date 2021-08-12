@@ -1,6 +1,6 @@
 {
   "name": "gulp-starter",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "description": "Frontend Starter Kit with Gulp",
   "main": "index.html",
   "scripts": {
@@ -26,7 +26,6 @@
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-file-include": "^2.2.2",
-    "gulp-gh-pages": "^0.5.4",
     "gulp-group-css-media-queries": "^1.2.2",
     "gulp-imagemin": "^7.1.0",
     "gulp-pretty-html": "^2.0.10",

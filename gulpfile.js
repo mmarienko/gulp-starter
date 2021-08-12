@@ -8,13 +8,16 @@ const source_folder = "src";
 
 const path = {
   src: {
-    html: source_folder + "/html/*.html",
+    html: [ source_folder + "/html/*.html",
+      "!" + source_folder + "/html/_*.html"],
     php: source_folder + "/php/**/*.php",
-    css: source_folder + "/scss/style.scss",
+    css: [source_folder + "/scss/**/*.scss",
+      "!" + source_folder + "/scss/**/_*.svg"],
     js: source_folder + "/js/**/*.js",
-    img: source_folder + "/img/**/*.+(png|jpg|gif|ico|webp)",
+    img: [ source_folder + "/img/**/*.+(png|jpg|gif|ico|webp|svg)",
+      "!" + source_folder + "/img/sprite.svg"],
+    svg: source_folder + "/img/sprite/*.svg",
     fonts: source_folder + "/fonts/*.+(otf|ttf|woff|woff2)",
-    svg: source_folder + "/img/svg/*.svg",
   },
   build: {
     html: project_folder + "/",
@@ -22,7 +25,6 @@ const path = {
     css: project_folder + "/css/",
     js: project_folder + "/js/",
     img: project_folder + "/img/",
-    svg: project_folder + "/img/svg/",
     fonts: project_folder + "/fonts/",
   },
   watch: {
@@ -30,8 +32,8 @@ const path = {
     php: source_folder + "/php/**/*.php",
     css: source_folder + "/scss/**/*.scss",
     js: source_folder + "/js/**/*.js",
-    img: source_folder + "/img/**/*.+(png|jpg|gif|ico|webp)",
-    svg: source_folder + "/img/svg/*.svg",
+    img: source_folder + "/img/**/*.+(png|jpg|gif|ico|webp|svg)",
+    svg: source_folder + "/img/sprite/*.svg",
   },
   clean: "./" + project_folder + "/",
 };
@@ -93,7 +95,7 @@ gulp.task("css", function () {  // setting styles
         cascade: true,
       })
     )
-    //.pipe(gulp.dest(path.build.css)) // if need not-clean version
+    //.pipe(gulp.dest(path.build.css)) // if need also not-clean version
     .pipe(cleanCss())
     .pipe(
       rename({
@@ -114,7 +116,7 @@ gulp.task("js", function () { // setting scripts
     .pipe(babel({
       presets: ["@babel/preset-env"]
     }))
-    //.pipe(gulp.dest(path.build.js)) // if need not-uglify version
+    //.pipe(gulp.dest(path.build.js)) // if need also not-uglify version
     .pipe(uglify())
     .pipe(
       rename({
@@ -141,7 +143,6 @@ gulp.task("img", function () { // setting image
 
 gulp.task("svg", function () {  // setting svg
   return gulp.src(path.src.svg)
-    .pipe(gulp.dest(path.build.svg))
     .pipe(
       cheerio({
         run: function ($) {
@@ -158,7 +159,7 @@ gulp.task("svg", function () {  // setting svg
         mode: {
           symbol: {
             sprite: "../sprite.svg",
-            example: true,
+            //example: true,
           },
         },
       })
