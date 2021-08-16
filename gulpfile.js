@@ -9,13 +9,13 @@ const source_folder = "src";
 const path = {
   src: {
     html: [ source_folder + "/html/*.html",
-      "!" + source_folder + "/html/_*.html"],
+      "!" + source_folder + "/html/_*.html" ],
     php: source_folder + "/php/**/*.php",
     css: [source_folder + "/scss/**/*.scss",
-      "!" + source_folder + "/scss/**/_*.svg"],
+      "!" + source_folder + "/scss/**/_*.svg" ],
     js: source_folder + "/js/**/*.js",
     img: [ source_folder + "/img/**/*.+(png|jpg|gif|ico|webp|svg)",
-      "!" + source_folder + "/img/sprite.svg"],
+      "!" + source_folder + "/img/sprite.svg" ],
     svg: source_folder + "/img/sprite/*.svg",
     fonts: source_folder + "/fonts/*.+(otf|ttf|woff|woff2)",
   },
